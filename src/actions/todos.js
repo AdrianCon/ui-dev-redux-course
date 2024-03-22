@@ -39,8 +39,8 @@ export function handleAddTodo(name, callback) {
   return (dispatch) => {
     return API.saveTodo(name)
       .then((todo) => {
-        dispatch(addTodo(todo));
         callback();
+        dispatch(addTodo(todo));
       })
       .catch(() => {
         alert("An error occurred. Try again.");

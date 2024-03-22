@@ -8,9 +8,8 @@ function Goals(props) {
 
   const addItem = (e) => {
     e.preventDefault();
-    const value = input.current;
-    input.current = "";
-    props.dispatch(handleAddGoal(value, () => (input.current = "")));
+    const value = input.current.value;
+    props.dispatch(handleAddGoal(value, () => (input.current.value = "")));
   };
 
   const removeItem = (goal) => {
@@ -20,11 +19,7 @@ function Goals(props) {
   return (
     <div>
       <h1>Goals</h1>
-      <input
-        onChange={(e) => (input.current = e.target.value)}
-        type="text"
-        placeholder="Add Goal"
-      />
+      <input ref={input} type="text" placeholder="Add Goal" />
       <button onClick={addItem}>Add Goal</button>
       <List items={props.goals} remove={removeItem} />
     </div>
