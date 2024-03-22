@@ -1,19 +1,21 @@
 import React from "react";
 import List from "./List";
 import { handleAddGoal, handleDeleteGoal } from "../actions/goals";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
-function Goals(props) {
+export default function Goals() {
+  const goals = useSelector((state) => state.goals);
+  const dispatch = useDispatch();
   const input = React.createRef();
 
   const addItem = (e) => {
     e.preventDefault();
     const value = input.current.value;
-    props.dispatch(handleAddGoal(value, () => (input.current.value = "")));
+    dispatch(handleAddGoal(value, () => (input.current.value = "")));
   };
 
   const removeItem = (goal) => {
-    props.dispatch(handleDeleteGoal(goal));
+    dispatch(handleDeleteGoal(goal));
   };
 
   return (
@@ -21,11 +23,7 @@ function Goals(props) {
       <h1>Goals</h1>
       <input ref={input} type="text" placeholder="Add Goal" />
       <button onClick={addItem}>Add Goal</button>
-      <List items={props.goals} remove={removeItem} />
+      <List items={goals} remove={removeItem} />
     </div>
   );
 }
-
-export default connect((state) => ({
-  goals: state.goals,
-}))(Goals);

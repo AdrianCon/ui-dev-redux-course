@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { handleInitialData } from "../actions/shared";
 import Todos from "./Todos";
 import Goals from "./Goals";
 
-function App(props) {
-  const { dispatch, loading } = props;
+export default function App() {
+  const loading = useSelector((state) => state.loading);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(handleInitialData());
@@ -22,7 +23,3 @@ function App(props) {
     </div>
   );
 }
-
-export default connect((state) => ({
-  loading: state.loading,
-}))(App);

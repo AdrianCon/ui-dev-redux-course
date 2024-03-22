@@ -1,5 +1,5 @@
 import React from "react";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import List from "./List";
 import {
   handleAddTodo,
@@ -7,21 +7,23 @@ import {
   handleToggle,
 } from "../actions/todos";
 
-function Todos(props) {
+export default function Todos() {
+  const todos = useSelector((state) => state.todos);
+  const dispatch = useDispatch();
   const input = React.createRef("");
 
   const addItem = (e) => {
     e.preventDefault();
     const value = input.current.value;
-    props.dispatch(handleAddTodo(value, () => (input.current.value = "")));
+    dispatch(handleAddTodo(value, () => (input.current.value = "")));
   };
 
   const removeItem = (todo) => {
-    props.dispatch(handleDeleteTodo(todo));
+    dispatch(handleDeleteTodo(todo));
   };
 
   const toggleItem = (id) => {
-    props.dispatch(handleToggle(id));
+    dispatch(handleToggle(id));
   };
 
   return (
@@ -29,11 +31,7 @@ function Todos(props) {
       <h1>Todo List</h1>
       <input ref={input} type="text" placeholder="Add Todo" />
       <button onClick={addItem}>Add Todo</button>
-      <List items={props.todos} toggleItem={toggleItem} remove={removeItem} />
+      <List items={todos} toggleItem={toggleItem} remove={removeItem} />
     </div>
   );
 }
-
-export default connect((state) => ({
-  todos: state.todos,
-}))(Todos);
